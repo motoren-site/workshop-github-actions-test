@@ -18,4 +18,4 @@ jobs:
         password: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
 
     - name: Build latest
-      run: docker build -t registry.digitalocean.com/containers/hello-svelte:$(echo $GITHUB_SHA | head -c7) ./app
+      run: docker build -t registry.digitalocean.com/containers/workshop-github-actions-test:$(echo $GITHUB_SHA | head -c7) ./app
