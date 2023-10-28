@@ -34,6 +34,6 @@ jobs:
     - name: Deploy app
       run: kubectl apply -f deployment.yml
 
-    - name: Get nodes
-      run: kubectl get nodes
+    - name: Get pods
+      run: kubectl get pods -A -o wide
       
