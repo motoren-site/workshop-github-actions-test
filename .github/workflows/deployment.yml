@@ -19,3 +19,7 @@ jobs:
 
     - name: Build latest
       run: docker build -t registry.digitalocean.com/containers/workshop-github-actions-test:$(echo $GITHUB_SHA | head -c7) ./app
+    
+    - name: Deploy app
+      run: docker push registry.digitalocean.com/containers/workshop-github-actions-test
+    
