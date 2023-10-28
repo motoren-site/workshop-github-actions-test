@@ -1,0 +1,39 @@
+name: Build and push container to docker repo containers @ DO
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@v1
+
+    - name: Login to Digital Ocean Registry
+      uses: docker/login-action@v1
+      with:
+        registry: registry.digitalocean.com
+        username: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+        password: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+
+    - name: Build latest
+      run: docker build -t registry.digitalocean.com/containers/workshop-github-actions-test:latest ./app
+    
+    - name: Push image
+      run: docker push registry.digitalocean.com/containers/workshop-github-actions-test:latest
+    
+    - name: Set up kubectl
+
+      uses: matootie/dokube@v1.4.0
+      with:
+        personalAccessToken: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+        clusterName: k8s-bergen
+        expirationTime: "1200"
+
+    - name: Deploy app
+      run: kubectl apply -f deployment.yml
+
+    - name: Get nodes
+      run: kubectl get nodes
+      
